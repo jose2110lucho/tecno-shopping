@@ -327,7 +327,7 @@ return [
         ],
         [
             'text' => 'cambiar contraseña',
-            'url'  => 'admin/settings',
+            'url'  => 'user/change-password',
             'icon' => 'fas fa-fw fa-lock',
         ],
         ['header' => 'Administracion'],

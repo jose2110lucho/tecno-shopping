@@ -31,6 +31,8 @@ Route::resource('categories',CategoryController::class);
 //usuario
 Route::resource('/profile', ProfileController::class);
 
+Route::get('/user/change-password', [ProfileController::class, 'showChangePasswordForm']);
+Route::post('/user/update-password', [ProfileController::class, 'updatePassword'])->name('password.update');
 
 
 

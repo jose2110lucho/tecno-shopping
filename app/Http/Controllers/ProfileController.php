@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
 
 class ProfileController extends Controller
 {
@@ -14,6 +17,35 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         return view('user.index', compact('user'));
+    }
+
+     // Mostrar el formulario de cambio de contraseña
+     public function showChangePasswordForm()
+     {
+         return view('user.changePassword');
+     }
+
+
+     // Actualizar la contraseña del usuario
+    public function updatePassword(Request $request)
+    {
+        // Validar los datos ingresados
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        // Verificar que la contraseña actual coincida
+        if (!Hash::check($request->current_password, Auth::user()->password)) {
+            return back()->with('error', 'La contraseña actual no es correcta.');
+        }
+
+        // Actualizar la contraseña del usuario
+        $user = Auth::user();  // Obtén al usuario autenticado
+        $user->password = Hash::make($request->new_password);  // Hashear la nueva contraseña
+        $user->save();  // Guardar los cambios
+
+        return back()->with('success', 'La contraseña ha sido actualizada con éxito.');
     }
 
     /**

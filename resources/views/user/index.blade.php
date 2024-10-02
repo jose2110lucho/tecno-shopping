@@ -3,7 +3,7 @@
 @section('title', 'Perfil de Usuario')
 
 @section('content_header')
-    <h1 style="text-align: center">Perfil de Usuario</h1>
+    <h1 style="text-align: center"><strong>Perfil de Usuario</strong></h1>
 @stop
 
 @section('content')
@@ -13,8 +13,8 @@
         <div class="card card-primary card-outline">
             <div class="card-body box-profile">
                 <div class="text-center">
-                    <img class="profile-user-img img-fluid img-circle"
-                         src="{{ asset('img/user_default.png') }}"  {{-- Cambia la ruta por la imagen real del usuario --}}
+                    <img class="profile-user-img img-fluid img-circle w-100"
+                         src="{{ asset('http://127.0.0.1:8000/vendor/adminlte/dist/img/user_default.png') }}"  {{-- Cambia la ruta por la imagen real del usuario --}}
                          alt="Foto de Perfil del Usuario"
                          class="img-thumbnail">
                 </div>
@@ -24,7 +24,7 @@
                 <p class="text-muted text-center">{{ $user->email }}</p>
 
                 
-                <a href="#" class="btn btn-primary btn-block"><b>Seguir</b></a>
+               
             </div>
             <!-- /.card-body -->
         </div>
