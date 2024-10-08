@@ -35,10 +35,48 @@ class ApiProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
-    {
-        //
+    public function update(Request $request, $product_id)
+{
+    $validatedData = $request->validate([
+        'code' => 'required|string',
+        'name' => 'required|string',
+        'brand' => 'required|string',
+        'quantity' => 'required|integer|min:0',
+        'price' => 'required|numeric|min:0',
+        'category_id' => 'required|exists:categories,id',
+    ]);
+
+    $product = Product::find($product_id);
+
+    if (!$product) {
+        return response()->json(['error' => 'Product not found'], 404);
     }
+
+    $product->update($validatedData);
+
+    return response()->json($product, 200);
+}
+public function saleProduct(Request $request, $product_id)
+{
+    $validatedData = $request->validate([
+        'quantity' => 'required|integer|min:1',
+    ]);
+
+    $product = Product::find($product_id);
+
+    if (!$product) {
+        return response()->json(['error' => 'Product not found'], 404);
+    }
+
+    if ($product->quantity < $validatedData['quantity']) {
+        return response()->json(['error' => 'Insufficient product quantity'], 400);
+    }
+
+    $product->quantity -= $validatedData['quantity'];
+    $product->save();
+
+    return response()->json($product, 200);
+}
 
     /**
      * Remove the specified resource from storage.
